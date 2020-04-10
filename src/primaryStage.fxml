@@ -14,9 +14,9 @@
       <ListView id="selectedToppings" fx:id="selectedToppings" layoutX="337.0" layoutY="247.0" prefHeight="200.0" prefWidth="143.0" />
       <AnchorPane layoutX="177.0" layoutY="247.0" prefHeight="200.0" prefWidth="150.0">
          <children>
-            <Button id="addToppings" fx:id="addToppings" layoutX="9.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" text="Add Toppings &gt;&gt;" />
-            <Button id="removeToppings" fx:id="removeToppings" layoutX="9.0" layoutY="54.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" text="&lt;&lt; Remove Toppings" />
-            <Button id="clearSelection" fx:id="clearSelection" layoutX="9.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" text="Clear Selection" />
+            <Button id="addToppings" fx:id="addToppings" layoutX="9.0" layoutY="14.0" mnemonicParsing="false" onAction="#addToppings" prefHeight="25.0" prefWidth="132.0" text="Add Toppings &gt;&gt;" />
+            <Button id="removeToppings" fx:id="removeToppings" layoutX="9.0" layoutY="54.0" mnemonicParsing="false" onAction="#removeToppings" prefHeight="25.0" prefWidth="132.0" text="&lt;&lt; Remove Toppings" />
+            <Button id="clearSelection" fx:id="clearSelection" layoutX="9.0" layoutY="153.0" mnemonicParsing="false" onAction="#clearSelection" prefHeight="25.0" prefWidth="132.0" text="Clear Selection" />
          </children>
       </AnchorPane>
       <GridPane layoutX="505.0" layoutY="315.0" prefHeight="132.0" prefWidth="99.0">
@@ -48,7 +48,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox id="pizzaStyle" fx:id="pizzaStyle" layoutX="14.0" layoutY="56.0" prefWidth="150.0" />
+            <ComboBox id="pizzaStyle" fx:id="pizzaStyle" layoutX="14.0" layoutY="56.0" onAction="#changeImage" prefWidth="150.0" />
             <ComboBox id="pizzaSize" fx:id="pizzaSize" layoutX="14.0" layoutY="137.0" prefWidth="150.0" />
          </children>
       </Pane>
