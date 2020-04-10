@@ -1,13 +1,11 @@
 
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 /**
@@ -46,25 +44,88 @@ public class controller {
     @FXML
     private TextArea theTextArea;
 
-
-    //Initialize Method
-    public void initialize() {
-        Image buildPizzaImage = new Image("buildPizza.png");
-        Image hawaiianImage = new Image("hawaiian.jpg");
-        Image deluxeImage = new Image("deluxe.jpg");
-
-        imageView.setImage(buildPizzaImage);
-    }
-
     private Stage secondStage;
     private Scene secondScene;
 
+    //Combo Box List Options
+    ObservableList<String> pizzaStyleList =
+            FXCollections.observableArrayList("Build Your Own", "Hawaiian", "Deluxe");
+    ObservableList<String> pizzaSizeList =
+            FXCollections.observableArrayList("Small", "Medium", "Large");
+
+    //Default for the Image View
+    Image buildPizzaImage = new Image("buildPizza.png");
+
+    /**
+     * Initialize values for combo box and imageView.
+     */
+    public void initialize() {
+
+        //Initialize Combo Box
+        pizzaStyle.setValue("Build Your Own");
+        pizzaStyle.setItems(pizzaStyleList);
+
+        pizzaSize.setValue("Small");
+        pizzaSize.setItems(pizzaSizeList);
+
+        //Initialize default Image
+        imageView.setImage(buildPizzaImage);
+
+        //Initialize toppings in the ListView
+        toppings.getItems().addAll("Beef", "Cheese", "Chicken",
+                "Green Pepper", "Ham" ,"Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
+
+        //Select multiple enabled
+        toppings.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+
+    /**
+     * Changes the image in the imageView.
+     */
+    public void changeImage() {
+        Image hawaiianImage = new Image("hawaiian.jpg");
+        Image deluxeImage = new Image("deluxe.jpg");
+
+        if(pizzaStyle.getValue().equals(pizzaStyleList.get(1))) {
+            imageView.setImage(hawaiianImage);
+            addToppings.setDisable(true);
+            removeToppings.setDisable(true);
+            toppings.getItems().clear();
+        }
+        else if(pizzaStyle.getValue().equals(pizzaStyleList.get(2))) {
+            imageView.setImage(deluxeImage);
+            addToppings.setDisable(true);
+            removeToppings.setDisable(true);
+            toppings.getItems().clear();
+        }
+        else {
+            imageView.setImage(buildPizzaImage);
+            addToppings.setDisable(false);
+            removeToppings.setDisable(false);
+            toppings.getItems().addAll("Beef", "Cheese", "Chicken",
+                    "Green Pepper", "Ham" ,"Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
+        }
+    }
+
+    /**
+     * Obtain the second stage from main.
+     * @param stage
+     */
     public void setSecondStage(Stage stage) {
         secondStage = stage;
     }
+
+    /**
+     * Obtain the second scene from main.
+     * @param scene
+     */
     public void setSecondScene(Scene scene) {
         secondScene = scene;
     }
+
+    /**
+     * Open the second stage to display order details.
+     */
     public void openSecondStage() {
         secondStage.setTitle("Order Details");
         secondStage.setScene(secondScene);
@@ -72,8 +133,49 @@ public class controller {
     }
 
     /**
-     * When instate radio button is selected disable the rest.
+     * Add the toppings to the selected ListView
      */
+    public void addToppings() {
+
+        ObservableList selection = toppings.getSelectionModel().getSelectedItems();
+
+        for(Object item: selection) {
+            if(selectedToppings.getItems().contains(item)) {
+                theTextArea.appendText("You already selected that topping!\n");
+            }
+            else {
+                selectedToppings.getItems().add(item);
+                toppings.getItems().remove(item);
+            }
+        }
+    }
+
+    /**
+     * Remove the toppings to the toppings ListView
+     */
+    public void removeToppings() {
+
+        ObservableList selection = selectedToppings.getSelectionModel().getSelectedItems();
+
+        for(Object item: selection) {
+            toppings.getItems().add(item);
+            selectedToppings.getItems().remove(item);
+        }
+    }
+
+    /**
+     * Clear the selected toppings
+     */
+    public void clearSelection() {
+
+        //Remove all of the selected toppings
+        ObservableList removeSelection = selectedToppings.getItems();
+        selectedToppings.getItems().removeAll(removeSelection);
+
+        //Set everything to default
+        initialize();
+    }
+
 //    public void instateSelect() {
 //        funding.setDisable(false);
 //        funds.clear();
@@ -85,24 +187,6 @@ public class controller {
 //        exchange.setSelected(false);
 //    }
 
-    /**
-     * When outstate radio button is selected disable the rest.
-     */
-//    public void outstateSelect() {
-//        funding.setDisable(true);
-//        funding.setSelected(false);
-//        funds.setEditable(false);
-//        funds.clear();
-//
-//        tristate.setDisable(false);
-//
-//        exchange.setDisable(true);
-//        exchange.setSelected(false);
-//    }
-
-    /**
-     * When international radio button is selected disable the rest.
-     */
 //    public void internationalSelect() {
 //        funding.setDisable(true);
 //        funding.setSelected(false);
@@ -115,194 +199,4 @@ public class controller {
 //        exchange.setDisable(false);
 //    }
 
-    /**
-     *
-     * The add function adds a student to the student list after checking that
-     * all fields were correctly entered and that the student doesn't exist in
-     * the list already.
-     */
-//    public void add() {
-//        //Get input from user and check if its not empty
-//        if (firstName.getText().trim().equals("")) {
-//            theTextArea.appendText("You must enter First Name!\n");
-//        } else if (lastName.getText().trim().equals("")) {
-//            theTextArea.appendText("You must enter Last Name!\n");
-//        } else if (numberOfCredits.getText().trim().equals("")) {
-//            theTextArea.appendText("You must enter number of credits\n");
-//        } else if (!instate.isSelected() && !outstate.isSelected() && !international.isSelected()) {
-//            theTextArea.appendText("You must select a student type!\n");
-//        } else {
-//
-//            String fName = firstName.getText();
-//            String lName = lastName.getText();
-//            int totalCredits = checkParse(numberOfCredits.getText()); // checks if input doesn't contain chars.
-//            if (totalCredits != -1) {
-//                boolean isTriState;
-//                boolean isExchange;
-//
-//                if (instate.isSelected()) {
-//                    if (funding.isSelected()) {
-//                        if (funds.getText().trim().equals("")) { // checks if funding was selected but no value was entered
-//                            theTextArea.appendText("You selected funds, so you must enter Funds value!\n");
-//                        } else {
-//
-//                            int fund = checkParse(funds.getText());
-//                            if (fund != -1) {
-//                                if (fund >= 0 && totalCredits > 0) {
-//                                    if (totalCredits < 12) {
-//                                        fund = 0;
-//                                    }
-//                                    Instate student = new Instate(fName, lName, totalCredits, fund);
-//                                    if (studentList.contains(student)) {  // checks if student already exists.
-//                                        theTextArea.appendText("Student already exists in the database!\n");
-//                                    } else {
-//                                        if (totalCredits < 12) {
-//                                            studentList.add(student);   //adds student to the next available index in array.
-//                                            theTextArea.appendText("Student added but funds were not applied because student is part time.\n");
-//                                        } else {
-//                                            studentList.add(student);   //adds student to the next available index in array.
-//                                        }
-//                                    }
-//                                } else {
-//                                    theTextArea.appendText("Credit and Funding must be positive!\n");
-//                                }
-//                            } else {
-//                                theTextArea.appendText("Funds must be a number! You can't include characters here\n");
-//                            }
-//                        }
-//                    } else {
-//                        int fund = 0;
-//                        if (totalCredits > 0) {
-//                            Instate student = new Instate(fName, lName, totalCredits, fund);
-//                            if (studentList.contains(student)) {  // checks if student already exists.
-//                                theTextArea.appendText("Student already exists in the database!\n");
-//                            } else {
-//                                studentList.add(student);   //adds student to the next available index in array.
-//                            }
-//                        } else {
-//                            theTextArea.appendText("Credit must be 1 or more!\n");
-//                        }
-//
-//                    }
-//                }
-//
-//                if (outstate.isSelected()) {
-//                    if (tristate.isSelected()) {
-//                        isTriState = true;
-//                        if (totalCredits > 0) {
-//                            Outstate student = new Outstate(fName, lName, totalCredits, isTriState);
-//                            if (studentList.contains(student)) {  // checks if student already exists.
-//                                theTextArea.appendText("Student already exists in the database!\n");
-//                            } else {
-//                                studentList.add(student);   //adds student to the next available index in array.
-//                            }
-//                        } else {
-//                            theTextArea.appendText("Credit must be 1 or more!\n");
-//                        }
-//
-//                    } else if (!tristate.isSelected()) {
-//                        isTriState = false;
-//                        if (totalCredits > 0) {
-//                            Outstate student = new Outstate(fName, lName, totalCredits, isTriState);
-//                            if (studentList.contains(student)) {  // checks if student already exists.
-//                                theTextArea.appendText("Student already exists in the database!\n");
-//                            } else {
-//                                studentList.add(student);   //adds student to the next available index in array.
-//                            }
-//                        } else {
-//                            theTextArea.appendText("Credit must be 1 or more!\n");
-//                        }
-//                    } else {
-//                        theTextArea.appendText("Something went wrong with the input.\n");
-//                    }
-//                }
-//
-//                if (international.isSelected()) {
-//                    if (totalCredits > 8) {
-//
-//                        if (exchange.isSelected()) {
-//                            isExchange = true;
-//                            International student = new International(fName, lName, totalCredits, isExchange);
-//                            if (studentList.contains(student)) {  // checks if student already exists.
-//                                theTextArea.appendText("Student already exists in the database!\n");
-//                            } else {
-//                                studentList.add(student);   //adds student to the next available index in array.
-//                            }
-//                        } else if (!exchange.isSelected()) {
-//                            isExchange = false;
-//                            International student = new International(fName, lName, totalCredits, isExchange);
-//                            if (studentList.contains(student)) {  // checks if student already exists.
-//                                theTextArea.appendText("Student already exists in the database!\n");
-//                            } else {
-//                                studentList.add(student);   //adds student to the next available index in array.
-//                            }
-//                        } else {
-//                            theTextArea.appendText("Something went wrong with the input.\n");
-//                        }
-//                    } else if (totalCredits > 0) {
-//                        theTextArea.appendText("International students must take at least 8 credits.\n");
-//                    } else {
-//                        theTextArea.appendText("Number of credits must be a positive number!\n");
-//                    }
-//                }
-//            } else {
-//                theTextArea.appendText("Number of credits must be a positive number! You can't include characters here\n");
-//            }
-//        }
-//    }
-
-    /**
-     * The remove method removes a student from the student list, unless the
-     * student is not an actual member. If member exists, it removes him and the
-     * last item in the array replaces it's position.
-     */
-//    public void remove() {
-//        //Get input from user and check if its not empty
-//        if (firstName.getText().trim().equals("")) {
-//            theTextArea.appendText("You must enter First Name!\n");
-//        } else if (lastName.getText().trim().equals("")) {
-//            theTextArea.appendText("You must enter Last Name!\n");
-//        } else {
-//            String fName = firstName.getText();
-//            String lName = lastName.getText();
-//            Student studentToRemove = new Instate(fName, lName, 0, 0);
-//            boolean wasRemoved = studentList.remove(studentToRemove);  //removes member.
-//            if (wasRemoved == true) {
-//                theTextArea.appendText("Student " + fName + " " + lName + " was removed from the list.\n");
-//            } else {
-//                theTextArea.appendText("Student " + fName + " " + lName + " was not found on the list.\n");
-//            }
-//        }
-//    }
-
-    /**
-     * The print method outputs all students in the list. If the team is empty
-     * it displays that it has 0 students.
-     */
-//    public void print() {
-//        if (studentList.isEmpty()) {
-//            theTextArea.appendText("We have 0 students!\n");
-//        } else {
-//            theTextArea.appendText(studentList.toString());
-//        }
-//    }
-
-    /**
-     * Checks if the string entered is in the correct format to be parsed as an
-     * integer. If it is, returns the parsed int, if not returns -1.
-     *
-     * @param string The string to be checked. Catches NumberFormatException if
-     * string contains chars
-     * @return int => the parsed int, or -1 if not valid.
-     */
-    public int checkParse(String string) {
-        try {
-            int num = Integer.parseInt(string);
-            return num;
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
-
 }
-
