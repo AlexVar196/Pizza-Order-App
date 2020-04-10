@@ -1,8 +1,14 @@
 
 import javafx.fxml.FXML;
-//import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+/**
+ * The controller for the order details.
+ *
+ * @author Michael Flores mof15
+ * @author Alex Varshavsky av653
+ */
 
 public class orderController {
 
@@ -10,6 +16,22 @@ public class orderController {
     private Button backToSelection;
 
     private Stage secondStage;
+
+    /**
+     * Set the second stage to Order Details
+     * @param stage
+     */
+    public void setSecondStage(Stage stage) {
+        secondStage = stage;
+    }
+
+    /**
+     * Close the second stage
+     */
+    public void closeSecondStage() {
+        secondStage.close();
+    }
+}
 //    private Stage firstStage;
 //    private Scene firstScene;
 //
@@ -24,10 +46,3 @@ public class orderController {
 //        firstStage.setScene(firstScene);
 //        firstStage.show();
 //    }
-    public void setSecondStage(Stage stage) {
-        secondStage = stage;
-    }
-    public void closeSecondStage() {
-        secondStage.close();
-    }
-}
