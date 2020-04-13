@@ -4,14 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orderController">
+<AnchorPane prefHeight="400.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orderController">
    <children>
-      <Button layoutX="207.0" layoutY="323.0" mnemonicParsing="false" text="Clear" />
+      <Button layoutX="192.0" layoutY="361.0" mnemonicParsing="false" text="Clear" />
       <Label layoutX="161.0" layoutY="14.0" text="Order Summary">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Button id="backToSelection" fx:id="backToSelection" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#closeSecondStage" text="&lt;&lt; Back to Selection" />
+      <TextArea id="orderSummary" fx:id="orderSummary" layoutX="50.0" layoutY="50.0" prefHeight="302.0" prefWidth="414.0" AnchorPane.rightAnchor="8.0" />
    </children>
 </AnchorPane>
