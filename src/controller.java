@@ -19,10 +19,8 @@ import java.util.ArrayList;
  * @author Alex Varshavsky av653
  */
 public class controller {
-    
-    private ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
-   
-           
+
+    public static ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
 
     //All the FXML components to be displayed
     @FXML
@@ -64,8 +62,7 @@ public class controller {
      * Initialize values for combo box and imageView.
      */
     public void initialize() {
-        
-        
+
         //Initialize Combo Box
         pizzaStyle.setValue("Build Your Own");
         pizzaStyle.setItems(pizzaStyleList);
@@ -139,14 +136,16 @@ public class controller {
      * Open the second stage to display order details.
      */
     public void openSecondStage() {
+
+        main.second.showOrderSummary();
         secondStage.setTitle("Order Details");
         secondStage.setScene(secondScene);
         secondStage.show();
     }
-    
-    public ArrayList<Pizza> getPizzaList(){
-    return pizzaList;
-    }
+
+//    public ArrayList<Pizza> getPizzaList() {
+//        return pizzaList;
+//    }
 
     /**
      * Add the toppings to the selected ListView
@@ -213,6 +212,7 @@ public class controller {
         } else {
             theTextArea.appendText("Some fields are missing.\n");
         }
+        
     }
 
     /**

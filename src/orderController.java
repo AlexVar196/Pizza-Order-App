@@ -21,27 +21,19 @@ public class orderController {
 
     private Stage secondStage;
 
-    private controller c;
-
-//    public orderController() {
-//        c = new controller();
-//    }
 
     /**
      * Initialize method which contains the defaults.
      */
     public void initialize() {
 
-        //ArrayList<Pizza> pl = new ArrayList<Pizza>(c.getPizzaList());
-       // ArrayList<Pizza> pl = controller.getPizzaList();
+       orderSummary.appendText(" \n ------------------- \n");
+       orderSummary.appendText(" \n ------------------- \n");
+       //getPizzaList();
+       
+       
+       
 
-       // orderSummary.appendText(c.getPizzaList() + " \n ------------------- \n");
-       // orderSummary.appendText(pl + " \n ------------------- \n");
-
-        //   c.getPizzaList();
-        //   for (Pizza p : pizzaList){
-       // orderSummary.appendText(pl.size() + " \n ------------------- \n");
-        // }
     }
 
     /**
@@ -65,5 +57,27 @@ public class orderController {
      */
     public void clearOrder() {
 
+        controller.pizzaList.clear();
+        orderSummary.clear();
     }
+    /**
+     * 
+     */
+    public void showOrderSummary() {
+
+    int total_price =0;
+    String order_summary = "";
+    
+    for (Pizza pizza : controller.pizzaList){
+        total_price += pizza.pizzaPrice();
+        order_summary += "\n\n" + pizza.toString();
+        }
+        
+        orderSummary.clear();
+        orderSummary.appendText(order_summary + " \n ------------------- \n");
+        orderSummary.appendText("Total Price: " + total_price);
+        
+    }
+    
+    
 }

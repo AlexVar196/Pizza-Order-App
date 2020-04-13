@@ -15,6 +15,8 @@ import javafx.stage.Stage;
  */
 
 public class main extends Application {
+    
+    static public orderController second;
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -37,7 +39,7 @@ public class main extends Application {
         //first.openSecondStage();
 
         //orderController.java
-        orderController second = secondLoader.getController();
+        second = secondLoader.getController();
 //        second.setFirstStage(primaryStage);
 //        second.setFirstScene(primaryScene);
         second.setSecondStage(orderStage);
