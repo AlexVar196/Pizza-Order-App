@@ -19,6 +19,10 @@ import java.util.ArrayList;
  * @author Alex Varshavsky av653
  */
 public class controller {
+    
+    private ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
+   
+           
 
     //All the FXML components to be displayed
     @FXML
@@ -60,7 +64,8 @@ public class controller {
      * Initialize values for combo box and imageView.
      */
     public void initialize() {
-
+        
+        
         //Initialize Combo Box
         pizzaStyle.setValue("Build Your Own");
         pizzaStyle.setItems(pizzaStyleList);
@@ -138,6 +143,10 @@ public class controller {
         secondStage.setScene(secondScene);
         secondStage.show();
     }
+    
+    public ArrayList<Pizza> getPizzaList(){
+    return pizzaList;
+    }
 
     /**
      * Add the toppings to the selected ListView
@@ -165,6 +174,7 @@ public class controller {
      * Add the pizza to order.
      */
     public void addToOrder() {
+        theTextArea.appendText("Added:" + "\n");
 
         ArrayList<String> listOfToppings = new ArrayList<String>(selectedToppings.getItems());
         String psize = (String) pizzaSize.getValue();
@@ -175,17 +185,20 @@ public class controller {
                 switch (pstyle) {
                     case "Build Your Own": {
                         Pizza pizza = new BuildYourOwn(pstyle, psize, listOfToppings);
+                        pizzaList.add(pizza);
                         theTextArea.appendText(pizza.toString() + "\n");
                         break;
                     }
 
                     case "Hawaiian": {
                         Pizza pizza = new Hawaiian(pstyle, psize);
+                        pizzaList.add(pizza);
                         theTextArea.appendText(pizza.toString() + "\n");
                         break;
                     }
                     case "Deluxe": {
                         Pizza pizza = new Deluxe(pstyle, psize);
+                        pizzaList.add(pizza);
                         theTextArea.appendText(pizza.toString() + "\n");
                         break;
                     }
