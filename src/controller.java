@@ -7,17 +7,17 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 
 /**
- * The controller class acts as a GUI in order to handle user events.
- * This class is running until the program is terminated. This class
- * allows us to add and remove students as well as display all current
- * students with their calculated tuition.
+ * The controller class acts as a GUI in order to handle user events. This class
+ * is running until the program is terminated. This class allows us to add and
+ * remove students as well as display all current students with their calculated
+ * tuition.
  *
  * @author Michael Flores mof15
  * @author Alex Varshavsky av653
  */
-
 public class controller {
 
     //All the FXML components to be displayed
@@ -48,10 +48,10 @@ public class controller {
     private Scene secondScene;
 
     //Combo Box List Options
-    ObservableList<String> pizzaStyleList =
-            FXCollections.observableArrayList("Build Your Own", "Hawaiian", "Deluxe");
-    ObservableList<String> pizzaSizeList =
-            FXCollections.observableArrayList("Small", "Medium", "Large");
+    ObservableList<String> pizzaStyleList
+            = FXCollections.observableArrayList("Build Your Own", "Hawaiian", "Deluxe");
+    ObservableList<String> pizzaSizeList
+            = FXCollections.observableArrayList("Small (10\")", "Medium (12\")", "Large (14\")");
 
     //Default for the Image View
     Image buildPizzaImage = new Image("buildPizza.png");
@@ -65,7 +65,7 @@ public class controller {
         pizzaStyle.setValue("Build Your Own");
         pizzaStyle.setItems(pizzaStyleList);
 
-        pizzaSize.setValue("Small");
+        pizzaSize.setValue("Small (10\")");
         pizzaSize.setItems(pizzaSizeList);
 
         //Initialize default Image
@@ -73,7 +73,7 @@ public class controller {
 
         //Initialize toppings in the ListView
         toppings.getItems().addAll("Beef", "Cheese", "Chicken",
-                "Green Pepper", "Ham" ,"Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
+                "Green Pepper", "Ham", "Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
 
         //Select multiple enabled
         toppings.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -86,29 +86,35 @@ public class controller {
         Image hawaiianImage = new Image("hawaiian.jpg");
         Image deluxeImage = new Image("deluxe.jpg");
 
-        if(pizzaStyle.getValue().equals(pizzaStyleList.get(1))) {
+        if (pizzaStyle.getValue().equals(pizzaStyleList.get(1))) {
             imageView.setImage(hawaiianImage);
             addToppings.setDisable(true);
             removeToppings.setDisable(true);
             toppings.getItems().clear();
-        }
-        else if(pizzaStyle.getValue().equals(pizzaStyleList.get(2))) {
+            selectedToppings.getItems().clear();
+            selectedToppings.getItems().addAll("Ham", "Pineapple");
+
+        } else if (pizzaStyle.getValue().equals(pizzaStyleList.get(2))) {
             imageView.setImage(deluxeImage);
             addToppings.setDisable(true);
             removeToppings.setDisable(true);
             toppings.getItems().clear();
-        }
-        else {
+            selectedToppings.getItems().clear();
+            selectedToppings.getItems().addAll("Sausage", "Pepperoni", "Green Pepper", "Onion", "Mushroom");
+
+        } else {
             imageView.setImage(buildPizzaImage);
             addToppings.setDisable(false);
             removeToppings.setDisable(false);
+            selectedToppings.getItems().clear();
             toppings.getItems().addAll("Beef", "Cheese", "Chicken",
-                    "Green Pepper", "Ham" ,"Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
+                    "Green Pepper", "Ham", "Mushroom", "Onion", "Pepperoni", "Pineapple", "Sausage");
         }
     }
 
     /**
      * Obtain the second stage from main.
+     *
      * @param stage
      */
     public void setSecondStage(Stage stage) {
@@ -117,6 +123,7 @@ public class controller {
 
     /**
      * Obtain the second scene from main.
+     *
      * @param scene
      */
     public void setSecondScene(Scene scene) {
@@ -139,14 +146,59 @@ public class controller {
 
         ObservableList selection = toppings.getSelectionModel().getSelectedItems();
 
-        for(Object item: selection) {
-            if(selectedToppings.getItems().contains(item)) {
+        for (Object item : selection) {
+            if (selectedToppings.getItems().contains(item)) {
                 theTextArea.appendText("You already selected that topping!\n");
+            } else {
+                int x = selectedToppings.getItems().size();
+                if (x < 6) {
+                    selectedToppings.getItems().add(item);
+                    toppings.getItems().remove(item);
+                } else {
+                    theTextArea.appendText("You already selected six toppings!\n");
+                }
             }
-            else {
-                selectedToppings.getItems().add(item);
-                toppings.getItems().remove(item);
+        }
+    }
+
+    /**
+     * Add the pizza to order.
+     */
+    public void addToOrder() {
+
+        ArrayList<String> listOfToppings = new ArrayList<String>(selectedToppings.getItems());
+        String psize = (String) pizzaSize.getValue();
+        String pstyle = (String) pizzaStyle.getValue();
+
+        if (null != pstyle) {
+            if (selectedToppings.getItems().size() > 1) {
+                switch (pstyle) {
+                    case "Build Your Own": {
+                        Pizza pizza = new BuildYourOwn(pstyle, psize, listOfToppings);
+                        theTextArea.appendText(pizza.toString() + "\n");
+                        break;
+                    }
+
+                    case "Hawaiian": {
+                        Pizza pizza = new Hawaiian(pstyle, psize);
+                        theTextArea.appendText(pizza.toString() + "\n");
+                        break;
+                    }
+                    case "Deluxe": {
+                        Pizza pizza = new Deluxe(pstyle, psize);
+                        theTextArea.appendText(pizza.toString() + "\n");
+                        break;
+                    }
+                    default: {
+                        theTextArea.appendText("Failed to chose a style.\n");
+                    }
+                    break;
+                }
+            } else {
+                theTextArea.appendText("You must select at least one topping.\n");
             }
+        } else {
+            theTextArea.appendText("Some fields are missing.\n");
         }
     }
 
@@ -157,7 +209,7 @@ public class controller {
 
         ObservableList selection = selectedToppings.getSelectionModel().getSelectedItems();
 
-        for(Object item: selection) {
+        for (Object item : selection) {
             toppings.getItems().add(item);
             selectedToppings.getItems().remove(item);
         }
@@ -175,28 +227,5 @@ public class controller {
         //Set everything to default
         initialize();
     }
-
-//    public void instateSelect() {
-//        funding.setDisable(false);
-//        funds.clear();
-//
-//        tristate.setDisable(true);
-//        tristate.setSelected(false);
-//
-//        exchange.setDisable(true);
-//        exchange.setSelected(false);
-//    }
-
-//    public void internationalSelect() {
-//        funding.setDisable(true);
-//        funding.setSelected(false);
-//        funds.setEditable(false);
-//        funds.clear();
-//
-//        tristate.setDisable(true);
-//        tristate.setSelected(false);
-//
-//        exchange.setDisable(false);
-//    }
 
 }
