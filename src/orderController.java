@@ -1,10 +1,12 @@
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
- * The controller for the order details.
+ * The orderController class is the controller
+ * for the order details.
  *
  * @author Michael Flores mof15
  * @author Alex Varshavsky av653
@@ -15,10 +17,22 @@ public class orderController {
     @FXML
     private Button backToSelection;
 
+    @FXML
+    private TextArea orderSummary;
+
     private Stage secondStage;
 
     /**
-     * Set the second stage to Order Details
+     * Initialize method which contains the defaults.
+     */
+    public void initialize() {
+        orderSummary.appendText("Order is empty.");
+    }
+
+    /**
+     * Set the second stage to Order Details obtained from the
+     * main java class
+     *
      * @param stage
      */
     public void setSecondStage(Stage stage) {
@@ -26,23 +40,10 @@ public class orderController {
     }
 
     /**
-     * Close the second stage
+     * Close the second stage when clicking on
+     * the back button.
      */
     public void closeSecondStage() {
         secondStage.close();
     }
 }
-//    private Stage firstStage;
-//    private Scene firstScene;
-//
-//    public void setFirstStage(Stage stage) {
-//        firstStage = stage;
-//    }
-//    public void setFirstScene(Scene scene) {
-//        firstScene = scene;
-//    }
-//    public void openFirstStage() {
-//        firstStage.setTitle("Does this even show?");
-//        firstStage.setScene(firstScene);
-//        firstStage.show();
-//    }
