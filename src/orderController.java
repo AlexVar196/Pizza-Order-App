@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -21,19 +20,11 @@ public class orderController {
 
     private Stage secondStage;
 
-
     /**
      * Initialize method which contains the defaults.
      */
     public void initialize() {
-
-       orderSummary.appendText(" \n ------------------- \n");
-       orderSummary.appendText(" \n ------------------- \n");
-       //getPizzaList();
-       
-       
-       
-
+        // nothing to do here.
     }
 
     /**
@@ -59,25 +50,25 @@ public class orderController {
 
         controller.pizzaList.clear();
         orderSummary.clear();
+        orderSummary.appendText("Order was cleared.");
     }
+
     /**
-     * 
+     * Displays the whole order summary with a calculated price.
      */
     public void showOrderSummary() {
 
-    int total_price =0;
-    String order_summary = "";
-    
-    for (Pizza pizza : controller.pizzaList){
-        total_price += pizza.pizzaPrice();
-        order_summary += "\n\n" + pizza.toString();
+        int total_price = 0;
+        String order_summary = "";
+
+        for (Pizza pizza : controller.pizzaList) {
+            total_price += pizza.pizzaPrice();
+            order_summary += "\n\n" + pizza.toString();
         }
-        
+
         orderSummary.clear();
         orderSummary.appendText(order_summary + " \n ------------------- \n");
         orderSummary.appendText("Total Price: " + total_price);
-        
+
     }
-    
-    
 }

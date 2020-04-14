@@ -19,6 +19,13 @@ public abstract class Pizza {
     protected String size;
     protected ArrayList<String> toppings;
 
+    /**
+     * Constructor
+     *
+     * @param style - the pizza style
+     * @param size - the pizza size
+     * @param toppings - the pizza toppings - array of strings.
+     */
     public Pizza(String style, String size, ArrayList<String> toppings) {
         this.style = style;
         this.size = size;
@@ -26,18 +33,36 @@ public abstract class Pizza {
 
     }
 
+    /**
+     * Constructor
+     *
+     * @param style - the pizza style
+     * @param size - the pizza size
+     */
     public Pizza(String style, String size) {
         this.style = style;
         this.size = size;
     }
 
+    /**
+     * Abstract class
+     *
+     */
     public abstract int pizzaPrice();
 
+    /**
+     * @return empty string.
+     *
+     */
     public String toString() {
-        return "From super";
+        return "";
     }
 
+    /**
+     * @return empty string.
+     *
+     */
     public String getToppings() {
-        return "From super toppings";
+        return "";
     }
 }

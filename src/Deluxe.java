@@ -13,6 +13,13 @@ public class Deluxe extends Pizza {
         super(style, size);
     }
 
+    /**
+     * pizzaPrice calculates the price of a pizza according to the constants
+     * defined in the Pizza class.
+     *
+     * @return returns the integer price, or -1 if there's an error.
+     *
+     */
     @Override
     public int pizzaPrice() {
         switch (size) {
@@ -27,6 +34,10 @@ public class Deluxe extends Pizza {
         }
     }
 
+    /**
+     * @return a string with pizza details: style, size, toppings and price.
+     *
+     */
     @Override
     public String toString() {
         return "Style: " + style + "\n"

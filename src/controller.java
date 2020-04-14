@@ -12,8 +12,8 @@ import java.util.ArrayList;
 /**
  * The controller class acts as a GUI in order to handle user events. This class
  * is running until the program is terminated. This class allows us to add and
- * remove students as well as display all current students with their calculated
- * tuition.
+ * remove Pizza orders as well as display all current built pizzas with their
+ * calculated price.
  *
  * @author Michael Flores mof15
  * @author Alex Varshavsky av653
@@ -67,7 +67,7 @@ public class controller {
         pizzaStyle.setValue("Build Your Own");
         pizzaStyle.setItems(pizzaStyleList);
 
-        pizzaSize.setValue("Small (10\")");
+        pizzaSize.setValue("Medium (12\")");
         pizzaSize.setItems(pizzaSizeList);
 
         //Initialize default Image
@@ -143,10 +143,6 @@ public class controller {
         secondStage.show();
     }
 
-//    public ArrayList<Pizza> getPizzaList() {
-//        return pizzaList;
-//    }
-
     /**
      * Add the toppings to the selected ListView
      */
@@ -171,6 +167,7 @@ public class controller {
 
     /**
      * Add the pizza to order.
+     *
      */
     public void addToOrder() {
         theTextArea.appendText("Added:" + "\n");
@@ -180,7 +177,7 @@ public class controller {
         String pstyle = (String) pizzaStyle.getValue();
 
         if (null != pstyle) {
-            if (selectedToppings.getItems().size() > 1) {
+            if (selectedToppings.getItems().size() > 0) {
                 switch (pstyle) {
                     case "Build Your Own": {
                         Pizza pizza = new BuildYourOwn(pstyle, psize, listOfToppings);
@@ -212,7 +209,7 @@ public class controller {
         } else {
             theTextArea.appendText("Some fields are missing.\n");
         }
-        
+
     }
 
     /**
